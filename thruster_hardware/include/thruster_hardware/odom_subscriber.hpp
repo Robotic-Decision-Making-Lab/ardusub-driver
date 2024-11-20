@@ -14,18 +14,20 @@ public:
     odom_sub_ = this->create_subscription<nav_msgs::msg::Odometry>(
       "/model/bluerov2/odometry", 10, std::bind(&OdomSubscriber::odom_callback, this, _1));
   }
-
+  std::shared_ptr<nav_msgs::msg::Odometry> odom_data;
 private:
   void odom_callback(const nav_msgs::msg::Odometry & msg)
   {
-    RCLCPP_INFO(this->get_logger(), "Received odometry data: Position(%f, %f, %f), Orientation(%f, %f, %f, %f)",
-         msg.pose.pose.position.x,
-         msg.pose.pose.position.y,
-         msg.pose.pose.position.z,
-         msg.pose.pose.orientation.x,
-         msg.pose.pose.orientation.y,
-         msg.pose.pose.orientation.z,
-         msg.pose.pose.orientation.w);
+    // RCLCPP_INFO(this->get_logger(), "Received odometry data: Position(%f, %f, %f), Orientation(%f, %f, %f, %f)",
+    //      msg.pose.pose.position.x,
+    //      msg.pose.pose.position.y,
+    //      msg.pose.pose.position.z,
+    //      msg.pose.pose.orientation.x,
+    //      msg.pose.pose.orientation.y,
+    //      msg.pose.pose.orientation.z,
+    //      msg.pose.pose.orientation.w);
+    // RCLCPP_INFO(this->get_logger(),"Meh");
+    odom_data = std::make_shared<nav_msgs::msg::Odometry>(msg);
   }
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;

@@ -5,7 +5,13 @@
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
-  rclcpp::spin(std::make_shared<OdomSubscriber>());
+
+  auto odom_subscriber = std::make_shared<OdomSubscriber>();
+  rclcpp::spin(odom_subscriber);
+  // if (odom_subscriber->odom_data != nullptr)
+  //   {
+  RCLCPP_INFO(odom_subscriber->get_logger(), "getting data %f", odom_subscriber->odom_data->pose.pose.position.x);
+    // }
   rclcpp::shutdown();
   return 0;
 }
